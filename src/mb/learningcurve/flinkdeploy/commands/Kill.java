@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.commands;
+package mb.learningcurve.flinkdeploy.commands;
 
 import java.util.Set;
 import org.jclouds.compute.ComputeService;

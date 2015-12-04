@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.commands;
+package mb.learningcurve.flinkdeploy.commands;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.domain.NodeMetadata.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import mb.learningcurve.stormdeploy.configurations.Flink;
+import mb.learningcurve.flinkdeploy.configurations.Flink;
 
 public class Attach {
 	private static Logger log = LoggerFactory.getLogger(Attach.class);
@@ -50,6 +50,7 @@ public class Attach {
 		/**
 		 * Update attachment
 		 */
+                /*
 		try {
 			String uiPublicAddress = "";
 			if (ui != null)
@@ -64,7 +65,7 @@ public class Attach {
 			log.info("Attached to cluster");
 		} catch (IOException ex) {
 			log.error("Problem attaching to cluster", ex);
-		}
+		}*/
 	}
 	
 	private static List<String> getInstancesPublicIp(ArrayList<NodeMetadata> nodes) {

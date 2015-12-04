@@ -1,11 +1,11 @@
-package mb.learningcurve.stormdeploy.userprovided;
+package mb.learningcurve.flinkdeploy.userprovided;
 
 import java.io.File;
 import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mb.learningcurve.stormdeploy.Tools;
+import mb.learningcurve.flinkdeploy.Tools;
 
 /**
  * Used to maintain credentials

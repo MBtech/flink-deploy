@@ -1,10 +1,10 @@
-package mb.learningcurve.stormdeploy.configurations;
+package mb.learningcurve.flinkdeploy.configurations;
 
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
 import java.util.ArrayList;
 import java.util.List;
 import org.jclouds.scriptbuilder.domain.Statement;
-import mb.learningcurve.stormdeploy.Tools;
+import mb.learningcurve.flinkdeploy.Tools;
 
 /**
  * Contains all methods to install Ganglia

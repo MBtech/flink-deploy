@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.commands;
+ package mb.learningcurve.flinkdeploy.commands;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,12 +16,12 @@ import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.domain.NodeMetadata.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import mb.learningcurve.stormdeploy.LaunchNodeThread;
-import mb.learningcurve.stormdeploy.Tools;
-import mb.learningcurve.stormdeploy.configurations.NodeConfiguration;
-import mb.learningcurve.stormdeploy.configurations.Flink;
-import mb.learningcurve.stormdeploy.userprovided.Configuration;
-import mb.learningcurve.stormdeploy.userprovided.Credential;
+import mb.learningcurve.flinkdeploy.LaunchNodeThread;
+import mb.learningcurve.flinkdeploy.Tools;
+import mb.learningcurve.flinkdeploy.configurations.NodeConfiguration;
+import mb.learningcurve.flinkdeploy.configurations.Flink;
+import mb.learningcurve.flinkdeploy.userprovided.Configuration;
+import mb.learningcurve.flinkdeploy.userprovided.Credential;
 
 /**
  * Called to deploy a new cluster
@@ -62,6 +62,7 @@ public class Deploy {
 		/**
 		 * Attach
 		 */
+                /*
 		try {
 			log.info("Attaching to cluster");
 			
@@ -75,10 +76,11 @@ public class Deploy {
 					getNimbusNode(config, newNodes).getPublicAddresses().iterator().next(),
 					uiPublicAddress, 
 					clustername);
+                        
 		} catch (IOException ex) {
 			log.error("Problem attaching to cluster", ex);
 		}
-		
+		*/
 		
 		/**
 		 * Configure all nodes
@@ -91,7 +93,7 @@ public class Deploy {
 							credentials,
 							config, 
 							getNewInstancesPrivateIp(config, "ZK", newNodes), 
-							getNewInstancesPrivateIp(config, "DRPC", newNodes), 
+							//getNewInstancesPrivateIp(config, "DRPC", newNodes), 
 							getNimbusNode(config, newNodes).getPrivateAddresses().iterator().next(), 
 							getUINode(config, newNodes).getPrivateAddresses().iterator().next()),
 					true,

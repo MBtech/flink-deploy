@@ -1,20 +1,20 @@
-package mb.learningcurve.stormdeploy.configurations;
+package mb.learningcurve.flinkdeploy.configurations;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.jclouds.scriptbuilder.domain.Statement;
-import mb.learningcurve.stormdeploy.Tools;
-import mb.learningcurve.stormdeploy.configurations.SystemTools.PACKAGE_MANAGER;
-import mb.learningcurve.stormdeploy.userprovided.Configuration;
-import mb.learningcurve.stormdeploy.userprovided.Credential;
+import mb.learningcurve.flinkdeploy.Tools;
+import mb.learningcurve.flinkdeploy.configurations.SystemTools.PACKAGE_MANAGER;
+import mb.learningcurve.flinkdeploy.userprovided.Configuration;
+import mb.learningcurve.flinkdeploy.userprovided.Credential;
 
 /**
  * @author Kasper Grud Skat Madsen
  */
 public class NodeConfiguration {
 	
-	public static List<Statement> getCommands(String clustername, Credential credentials, Configuration config, List<String> zookeeperHostnames, List<String> drpcHostnames, String nimbusHostname, String uiHostname) {
+	public static List<Statement> getCommands(String clustername, Credential credentials, Configuration config, List<String> taskManagerHostNames, String jobManagerHostName, String uiHostname) {
 		List<Statement> commands = new ArrayList<Statement>();
 		
 		// Install system tools
@@ -60,13 +60,13 @@ public class NodeConfiguration {
 			commands.addAll(Tools.runCustomCommands(config.getRemoteExecPreConfig()));
 		
 		// Configure Zookeeper (update configurationfiles)
-		commands.addAll(Zookeeper.configure(zookeeperHostnames));
+		//commands.addAll(Zookeeper.configure(zookeeperHostnames));
 		
 		// Configure Flink (update configurationfiles)
-		commands.addAll(Flink.configure(nimbusHostname, zookeeperHostnames, drpcHostnames, config.getImageUsername()));
+		commands.addAll(Flink.configure(jobManagerHostName, taskManagerHostNames, config.getImageUsername()));
 		
 		// Configure Ganglia
-		commands.addAll(Ganglia.configure(clustername, uiHostname));
+		//commands.addAll(Ganglia.configure(clustername, uiHostname));
 				
 		// Execute custom code, if user provided (post config)
 		if (config.getRemoteExecPostConfig().size() > 0)
@@ -77,12 +77,12 @@ public class NodeConfiguration {
 		 * Start daemons (only on correct nodes, and under supervision)
 		 */
 		commands.addAll(Zookeeper.startDaemonSupervision(config.getImageUsername()));
-		commands.addAll(Flink.startNimbusDaemonSupervision(config.getImageUsername()));
-		commands.addAll(Flink.startSupervisorDaemonSupervision(config.getImageUsername()));
-		commands.addAll(Flink.startUIDaemonSupervision(config.getImageUsername()));
-		commands.addAll(Flink.startDRPCDaemonSupervision(config.getImageUsername()));
+		commands.addAll(Flink.startJobManagerDaemonSupervision(config.getImageUsername()));
+		commands.addAll(Flink.startTaskManagerDaemonSupervision(config.getImageUsername()));
+		//commands.addAll(Flink.startUIDaemonSupervision(config.getImageUsername()));
+		//commands.addAll(Flink.startDRPCDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startLogViewerDaemonSupervision(config.getImageUsername()));
-		commands.addAll(Ganglia.start());
+		//commands.addAll(Ganglia.start());
 		
 		/**
 		 * Start memory manager (to help share resources among Java processes)

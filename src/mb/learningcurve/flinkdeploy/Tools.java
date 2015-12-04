@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy;
+package mb.learningcurve.flinkdeploy;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
@@ -42,8 +42,8 @@ import com.google.common.collect.Maps;
 import com.google.common.io.Files;
 import com.google.inject.Module;
 
-import mb.learningcurve.stormdeploy.userprovided.Configuration;
-import mb.learningcurve.stormdeploy.userprovided.Credential;
+import mb.learningcurve.flinkdeploy.userprovided.Configuration;
+import mb.learningcurve.flinkdeploy.userprovided.Credential;
 
 public class Tools {
 	private static final String _workDir = System.getProperty("user.dir").endsWith("/") ? System.getProperty("user.dir") : System.getProperty("user.dir") + "/";
@@ -136,10 +136,10 @@ public class Tools {
 	
 	/**
 	 * Get ports to open
-	 * 	22 = SSH, 6627 = Thrift, 8080 = UI, 80 = GANGLIA UI, 8000 = Logviewer, 3772 = DRPC
+	 * 	22 = SSH, 6627 = Thrift, 8080 = UI, 80 = GANGLIA UI, 8000 = Logviewer, 3772 = DRPC, 8081: job manager web port
 	 */
 	public static int[] getPortsToOpen() {
-            return new int[]{22, 6627, 8080, 80, 8000, 3772};
+            return new int[]{22, 6627, 8080, 80, 8000, 3772, 8081};
 	}
 	
 	@SuppressWarnings("unchecked")

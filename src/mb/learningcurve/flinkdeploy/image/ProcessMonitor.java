@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.image;
+package mb.learningcurve.flinkdeploy.image;
 
 import java.io.BufferedReader;
 import java.io.IOException;

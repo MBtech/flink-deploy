@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.configurations;
+package mb.learningcurve.flinkdeploy.configurations;
 
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
 

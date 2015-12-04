@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy;
+package mb.learningcurve.flinkdeploy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ import org.jclouds.scriptbuilder.domain.StatementList;
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import mb.learningcurve.stormdeploy.configurations.Zookeeper;
-import mb.learningcurve.stormdeploy.userprovided.Configuration;
+import mb.learningcurve.flinkdeploy.configurations.Zookeeper;
+import mb.learningcurve.flinkdeploy.userprovided.Configuration;
 
 /**
  * Used to launch a new nodes

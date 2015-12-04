@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.configurations;
+package mb.learningcurve.flinkdeploy.configurations;
 
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.jclouds.scriptbuilder.domain.Statement;
 
-import mb.learningcurve.stormdeploy.Tools;
+import mb.learningcurve.flinkdeploy.Tools;
 
 
 /**
@@ -27,57 +27,54 @@ public class Flink {
 	/**
 	 * Write storm/conf/storm.yaml (basic settings only)
 	 */
-	public static List<Statement> configure(String hostname, List<String> zkNodesHostname, List<String> drpcHostname, String userName) {
+	public static List<Statement> configure(String jobManagerHostName, List<String> taskManagerHostNames, String userName) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
-		st.add(exec("cd ~/storm/conf/"));
-		st.add(exec("touch storm.yaml"));
+		st.add(exec("cd ~/flink/conf/"));
+                
+		//st.add(exec("touch flink-conf.yaml"));
+		//Add job manager rpc address
+                st.add(exec("sed -i \"s/jobmanager.rpc.address: */jobmanager.rpc.address: "+jobManagerHostName+"/g\" flink-conf.yaml"));
 		
-		// Add nimbus.host
-		st.add(exec("echo nimbus.host: \"" + hostname + "\" >> storm.yaml"));
+                // Add nimbus.host
+		//st.add(exec("echo nimbus.host: \"" + hostname + "\" >> storm.yaml"));
 		
 		// Add storm.zookeeper.servers
-		st.add(exec("echo storm.zookeeper.servers: >> storm.yaml"));
-		for (int i = 1; i <= zkNodesHostname.size(); i++)
-			st.add(exec("echo - \"" + zkNodesHostname.get(i-1) + "\" >> storm.yaml"));
-
-		// Add drpc.servers
-		if (drpcHostname.size() > 0) {
-			st.add(exec("echo drpc.servers: >> storm.yaml"));
-			for (int i = 1; i <= drpcHostname.size(); i++)
-				st.add(exec("echo - \"" + drpcHostname.get(i-1) + "\" >> storm.yaml"));
-		}
+                st.add(exec("touch slaves"));
+		//st.add(exec("echo storm.zookeeper.servers: >> storm.yaml"));
+		for (int i = 1; i <= taskManagerHostNames.size(); i++)
+			st.add(exec("echo \"" + taskManagerHostNames.get(i-1) + "\" >> slaves"));
 
 		// Add supervisor metadata
-		st.add(exec("echo supervisor.scheduler.meta: >> storm.yaml"));
-		st.add(exec("instancetype=$(cat ~/.instance-type)"));
-		st.add(exec("echo \"  instancetype: \\\"$instancetype\\\"\" >> storm.yaml"));
+		//st.add(exec("echo supervisor.scheduler.meta: >> storm.yaml"));
+		//st.add(exec("instancetype=$(cat ~/.instance-type)"));
+		//st.add(exec("echo \"  instancetype: \\\"$instancetype\\\"\" >> storm.yaml"));
 		
 		// Change owner of storm directory
-		st.add(exec("chown -R " + userName + ":" + userName + " ~/storm"));
+		st.add(exec("chown -R " + userName + ":" + userName + " ~/flink"));
 		
 		// Add storm to execution PATH
-		st.add(exec("echo \"export PATH=\\\"\\$HOME/storm/bin:\\$PATH\\\"\" >> ~/.bashrc"));
+		st.add(exec("echo \"export PATH=\\\"\\$HOME/flink/bin:\\$PATH\\\"\" >> ~/.bashrc"));
                 
 		return st;
 	}
-	
+	//TODO: change the input arguments to the process monitor
 	/**
 	 * Uses Monitor to restart daemon, if it stops
 	 */
-	public static List<Statement> startNimbusDaemonSupervision(String username) {
+	public static List<Statement> startJobManagerDaemonSupervision(String username) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *MASTER*) java -cp \"sda/storm-deploy-alternative.jar\" dk.kaspergsm.stormdeploy.image.ProcessMonitor backtype.storm.daemon.nimbus storm/bin/storm nimbus ;; esac &' - " + username));
+		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *MASTER*) java -cp \"fdeploy/flink-deploy-1.jar\" mb.learningcurve.stormdeploy.image.ProcessMonitor backtype.storm.daemon.nimbus storm/bin/storm nimbus ;; esac &' - " + username));
 		return st;
 	}
 	
 	/**
 	 * Uses Monitor to restart daemon, if it stops
 	 */
-	public static List<Statement> startSupervisorDaemonSupervision(String username) {
+	public static List<Statement> startTaskManagerDaemonSupervision(String username) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *WORKER*) java -cp \"sda/storm-deploy-alternative.jar\" dk.kaspergsm.stormdeploy.image.ProcessMonitor backtype.storm.daemon.supervisor storm/bin/storm supervisor ;; esac &' - " + username));
+		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *WORKER*) java -cp \"sda/storm-deploy-alternative.jar\" mb.learningcurve.stormdeploy.image.ProcessMonitor backtype.storm.daemon.supervisor storm/bin/storm supervisor ;; esac &' - " + username));
 		return st;
 	}
 	

@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.commands;
+package mb.learningcurve.flinkdeploy.commands;
 
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
 import java.io.File;
@@ -18,10 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import mb.learningcurve.stormdeploy.Tools;
-import mb.learningcurve.stormdeploy.configurations.NodeConfiguration;
-import mb.learningcurve.stormdeploy.userprovided.Configuration;
-import mb.learningcurve.stormdeploy.userprovided.Credential;
+import mb.learningcurve.flinkdeploy.Tools;
+import mb.learningcurve.flinkdeploy.configurations.NodeConfiguration;
+import mb.learningcurve.flinkdeploy.userprovided.Configuration;
+import mb.learningcurve.flinkdeploy.userprovided.Credential;
 
 public class ScaleOutCluster {
 	private static Logger log = LoggerFactory.getLogger(ScaleOutCluster.class);
@@ -78,7 +78,6 @@ public class ScaleOutCluster {
 						credentials, 
 						config, 
 						getInstancesPrivateIp(existingZookeeper), 
-						getInstancesPrivateIp(existingDRPC), 
 						nimbus.getPrivateAddresses().iterator().next(), 
 						ui.getPrivateAddresses().iterator().next()), 
 					instanceType, 

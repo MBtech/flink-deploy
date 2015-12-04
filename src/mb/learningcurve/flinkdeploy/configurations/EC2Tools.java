@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.configurations;
+package mb.learningcurve.flinkdeploy.configurations;
 
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.List;
 import org.jclouds.scriptbuilder.domain.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import mb.learningcurve.stormdeploy.Tools;
-import mb.learningcurve.stormdeploy.configurations.SystemTools.PACKAGE_MANAGER;
+import mb.learningcurve.flinkdeploy.Tools;
+import mb.learningcurve.flinkdeploy.configurations.SystemTools.PACKAGE_MANAGER;
 
 /**
  * All logic to configure ec2-tools on nodes

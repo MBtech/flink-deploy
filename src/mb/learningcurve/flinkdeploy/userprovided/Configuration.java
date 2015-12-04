@@ -1,4 +1,4 @@
-package mb.learningcurve.stormdeploy.userprovided;
+package mb.learningcurve.flinkdeploy.userprovided;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import mb.learningcurve.stormdeploy.Tools;
+import mb.learningcurve.flinkdeploy.Tools;
 
 /**
  * Class used to store all information for configuration.yaml, specific to cluster to deploy

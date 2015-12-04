@@ -1,15 +1,15 @@
-package mb.learningcurve.stormdeploy;
+package mb.learningcurve.flinkdeploy;
 
 import java.io.File;
 import org.jclouds.compute.ComputeServiceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import mb.learningcurve.stormdeploy.commands.Attach;
-import mb.learningcurve.stormdeploy.commands.Deploy;
-import mb.learningcurve.stormdeploy.commands.Kill;
-import mb.learningcurve.stormdeploy.commands.ScaleOutCluster;
-import mb.learningcurve.stormdeploy.userprovided.Configuration;
-import mb.learningcurve.stormdeploy.userprovided.Credential;
+import mb.learningcurve.flinkdeploy.commands.Attach;
+import mb.learningcurve.flinkdeploy.commands.Deploy;
+import mb.learningcurve.flinkdeploy.commands.Kill;
+import mb.learningcurve.flinkdeploy.commands.ScaleOutCluster;
+import mb.learningcurve.flinkdeploy.userprovided.Configuration;
+import mb.learningcurve.flinkdeploy.userprovided.Credential;
 
 /**
  * Main class for project
