@@ -1,0 +1,14 @@
+#
+# Amazon EC2 example cluster configuration
+#
+ectwo:
+    - storm-version "0.9.5"					# Version of Storm
+    - zk-version "3.4.6"					# Version of Zookeeper
+    - image "eu-west-1/ami-97344ae0"				# Ubuntu 14.04 LTS AMI
+    - region "eu-west-1"					# Region
+    - m1.medium {ZK, MASTER, UI}           			# Request service
+    - m1.medium {ZK, WORKER}					# Request service
+    - m1.medium {ZK, WORKER}					# Request service
+    - m1.medium {WORKER}					# Request service
+    - remote-exec-preconfig {cd ~, echo hey > hey.txt}
+    - remote-exec-postconfig {}
