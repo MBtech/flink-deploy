@@ -42,9 +42,9 @@ public class NodeConfiguration {
 		//commands.addAll(ZeroMQ.configure());
 		
 		// Download and configure storm-deploy-alternative (before anything with supervision is started)
-		commands.addAll(StormDeployAlternative.download());
-		commands.addAll(StormDeployAlternative.writeConfigurationFiles(Tools.getWorkDir() + "conf" + File.separator + "configuration.yaml", Tools.getWorkDir() + "conf" + File.separator + "credential.yaml"));
-		commands.addAll(StormDeployAlternative.writeLocalSSHKeys());
+		commands.addAll(FlinkDeployAlternative.download());
+		commands.addAll(FlinkDeployAlternative.writeConfigurationFiles(Tools.getWorkDir() + "conf" + File.separator + "configuration.yaml", Tools.getWorkDir() + "conf" + File.separator + "credential.yaml"));
+		commands.addAll(FlinkDeployAlternative.writeLocalSSHKeys());
 		
 		// Download Flink
 		commands.addAll(Flink.download(config.getFlinkRemoteLocation()));
@@ -76,12 +76,12 @@ public class NodeConfiguration {
 		/**
 		 * Start daemons (only on correct nodes, and under supervision)
 		 */
-		commands.addAll(Zookeeper.startDaemonSupervision(config.getImageUsername()));
+		//commands.addAll(Zookeeper.startDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startJobManagerDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startTaskManagerDaemonSupervision(config.getImageUsername()));
 		//commands.addAll(Flink.startUIDaemonSupervision(config.getImageUsername()));
 		//commands.addAll(Flink.startDRPCDaemonSupervision(config.getImageUsername()));
-		commands.addAll(Flink.startLogViewerDaemonSupervision(config.getImageUsername()));
+		//commands.addAll(Flink.startLogViewerDaemonSupervision(config.getImageUsername()));
 		//commands.addAll(Ganglia.start());
 		
 		/**
@@ -90,7 +90,7 @@ public class NodeConfiguration {
 		 *  and user has specified he wants it running
 		 */
 		if (config.executeMemoryMonitor())
-			commands.addAll(StormDeployAlternative.runMemoryMonitor(config.getImageUsername()));
+			commands.addAll(FlinkDeployAlternative.runMemoryMonitor(config.getImageUsername()));
 		
 		// Return commands
 		return commands;

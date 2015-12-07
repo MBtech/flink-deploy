@@ -2,13 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>dk.kaspergsm.stormdeploy</groupId>
+	<groupId>mb.learningcurve.flinkdeploy</groupId>
 	<artifactId>flink-deploy</artifactId>	
 	<version>1</version>
 	<packaging>jar</packaging>
 
 	<name>flink-deploy</name>
-	<url>https://github.com/KasperMadsen/storm-deploy-alternative</url>
+	<url>https://github.com/MBtech/flink-deploy</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,7 +84,7 @@
 					<transformers>
 						<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 							<manifestEntries>
-								<Main-Class>dk.kaspergsm.stormdeploy.StormDeployAlternative</Main-Class>
+								<Main-Class>mb.learningcurve.flinkdeploy.FlinkDeployAlternative</Main-Class>
 							</manifestEntries>
 						</transformer>
 						<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>

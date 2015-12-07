@@ -14,6 +14,8 @@ import mb.learningcurve.flinkdeploy.configurations.Flink;
 public class Attach {
 	private static Logger log = LoggerFactory.getLogger(Attach.class);
 
+        //TODO: What does attach do?
+        
 	/**
 	 * Attaches to cluster
 	 */

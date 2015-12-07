@@ -13,7 +13,6 @@ import org.jclouds.scriptbuilder.domain.StatementList;
 import static org.jclouds.scriptbuilder.domain.Statements.exec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import mb.learningcurve.flinkdeploy.configurations.Zookeeper;
 import mb.learningcurve.flinkdeploy.userprovided.Configuration;
 
 /**
@@ -62,9 +61,10 @@ public class LaunchNodeThread extends Thread {
 		_initScript = new ArrayList<Statement>();
 		_initScript.add(exec("echo \"" + daemons.toString() + "\" > ~/daemons"));
 		_initScript.add(exec("echo \"" + instanceType.toString() + "\" > ~/.instance-type"));
-		if (zkMyId != null)
+		/*
+                if (zkMyId != null)
 			_initScript.addAll(Zookeeper.writeZKMyIds(_username, zkMyId));
-
+                */
 		// Run thread now
 		this.start();
 	}

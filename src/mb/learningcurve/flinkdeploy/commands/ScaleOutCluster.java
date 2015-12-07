@@ -26,6 +26,7 @@ import mb.learningcurve.flinkdeploy.userprovided.Credential;
 public class ScaleOutCluster {
 	private static Logger log = LoggerFactory.getLogger(ScaleOutCluster.class);
 	
+        //TODO: Do corresponding changes to allow scaling out
 	/**
 	 * Assumes we are currently attached to the cluster to extend
 	 */
@@ -37,7 +38,7 @@ public class ScaleOutCluster {
 		 */
 		ArrayList<NodeMetadata> existingZookeeper = new ArrayList<NodeMetadata>();
 		ArrayList<NodeMetadata> existingWorkers = new ArrayList<NodeMetadata>();
-		ArrayList<NodeMetadata> existingDRPC = new ArrayList<NodeMetadata>();
+		//ArrayList<NodeMetadata> existingDRPC = new ArrayList<NodeMetadata>();
 		NodeMetadata nimbus = null, ui = null;
 		String image = null, region = null;
 		for (NodeMetadata n : (Set<NodeMetadata>) computeContext.getComputeService().listNodes()) {			
@@ -50,14 +51,14 @@ public class ScaleOutCluster {
 				for (String daemon : daemons.split(",")) {
 					if (daemon.trim().toLowerCase().equals("master"))
 						nimbus = n;
-					if (daemon.trim().toLowerCase().equals("ui"))
-						ui = n;
+					//if (daemon.trim().toLowerCase().equals("ui"))
+					//	ui = n;
 					if (daemon.trim().toLowerCase().equals("worker"))
 						existingWorkers.add(n);
-					if (daemon.trim().toLowerCase().equals("zk"))
-						existingZookeeper.add(n);
-					if (daemon.trim().toLowerCase().equals("drpc"))
-						existingDRPC.add(n);
+					//if (daemon.trim().toLowerCase().equals("zk"))
+					//	existingZookeeper.add(n);
+					//if (daemon.trim().toLowerCase().equals("drpc"))
+					//	existingDRPC.add(n);
 				}
 				
 				if (image == null)
@@ -135,7 +136,7 @@ public class ScaleOutCluster {
 						.nameTask("Setup")	
 						.blockOnComplete(true)
 						.wrapInInitScript(true)
-						.inboundPorts(22, 6627, 8080) // 22 = SSH, 6627 = Thrift, 8080 = UI
+						.inboundPorts(22, 6627, 8081) // 22 = SSH, 6627 = Thrift, 8081 = UI
 						.overrideLoginUser(config.getImageUsername())
 						.userMetadata("daemons", "[WORKER]")
 						.runScript(new StatementList(initScript))

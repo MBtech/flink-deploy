@@ -16,8 +16,8 @@ import mb.learningcurve.flinkdeploy.userprovided.Credential;
  * 
  * @author Kasper Grud Skat Madsen
  */
-public class StormDeployAlternative {
-	private static Logger log = LoggerFactory.getLogger(StormDeployAlternative.class);
+public class FlinkDeployAlternative {
+	private static Logger log = LoggerFactory.getLogger(FlinkDeployAlternative.class);
 
 	public static void main(String[] args) {
 		if (args.length <= 1) {

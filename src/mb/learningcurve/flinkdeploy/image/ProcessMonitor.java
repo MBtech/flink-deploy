@@ -61,7 +61,7 @@ public class ProcessMonitor {
         // read the output from the command
         String s = null;
         while ((s = i.readLine()) != null) {
-        	if (s.contains(_process) && !s.contains("storm-deploy-alternative.jar")) // filter the monitoring process
+        	if (s.contains(_process) && !s.contains("flink-deploy-1.jar")) // filter the monitoring process
         		return true;
         }
         

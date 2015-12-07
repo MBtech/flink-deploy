@@ -22,8 +22,9 @@ public class Configuration {
 	private ArrayList<String> _conf;
 	
 	private HashSet<String> _allConfigurationSettings = new HashSet<String>(Arrays.asList(
-			"storm-version", 
-			"zk-version",
+			"flink-version", 
+			"scala-version",
+                        "hadoop-version",
 			"image","image-username",
 			"region",
 			"memory-monitor",
@@ -94,7 +95,8 @@ public class Configuration {
 		
 		return imageUsername;
 	}
-		
+	
+        //TODO: Set a default region
 	/**
 	 * Get region
 	 */
@@ -196,7 +198,7 @@ public class Configuration {
 		return nodeIdToInstanceTypeID;
 	}
 	
-	
+	//TODO: Not being used (it was in Deploy.java)
 	/**
 	 * Get map{node id, zkid}
 	 */

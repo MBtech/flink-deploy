@@ -13,11 +13,11 @@ import mb.learningcurve.flinkdeploy.Tools;
  * 
  * @author Kasper Grud Skat Madsen
  */
-public class StormDeployAlternative {
+public class FlinkDeployAlternative {
 
         // TODO Change this to do flink things
 	public static List<Statement> download() {
-		return Tools.download("~", "https://github.com/MBtech/flink-deploy/releases/download/0.1/fdeploy.tar", true, true);
+		return Tools.download("~", "https://github.com/MBtech/flink-deploy/releases/download/0.1/fdeploy.tar.gz", true, true);
 	}
 	
 	/**

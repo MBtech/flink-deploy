@@ -71,9 +71,9 @@ public class Deploy {
 				uiPublicAddress = getUINode(config, newNodes).getPublicAddresses().iterator().next();
 			
 			Flink.writeStormAttachConfigFiles(
-					getNewInstancesPublicIp(config, "ZK", newNodes), 
+					//getNewInstancesPublicIp(config, "ZK", newNodes), 
 					getNewInstancesPublicIp(config, "WORKER", newNodes), 
-					getNimbusNode(config, newNodes).getPublicAddresses().iterator().next(),
+					getMasterNode(config, newNodes).getPublicAddresses().iterator().next(),
 					uiPublicAddress, 
 					clustername);
                         
@@ -92,10 +92,10 @@ public class Deploy {
 							clustername,
 							credentials,
 							config, 
-							getNewInstancesPrivateIp(config, "ZK", newNodes), 
+							getNewInstancesPrivateIp(config, "MASTER", newNodes), 
 							//getNewInstancesPrivateIp(config, "DRPC", newNodes), 
-							getNimbusNode(config, newNodes).getPrivateAddresses().iterator().next(), 
-							getUINode(config, newNodes).getPrivateAddresses().iterator().next()),
+							getMasterNode(config, newNodes).getPrivateAddresses().iterator().next(), 
+							getMasterNode(config, newNodes).getPrivateAddresses().iterator().next()), //Task manager and web UI IP are the same?
 					true,
 					clustername, 
 					computeContext.getComputeService(),
@@ -118,8 +118,9 @@ public class Deploy {
 		log.info("Started:");
 		for (NodeMetadata n : newNodes.values())
 			log.info("\t" + n.getPublicAddresses().iterator().next() + "\t" + n.getUserMetadata().get("daemons").toString());
-		log.info("Storm UI: http://" + getUINode(config, newNodes).getPublicAddresses().iterator().next() + ":8080");
-		log.info("Ganglia UI: http://" + getUINode(config, newNodes).getPublicAddresses().iterator().next() + "/ganglia");
+                //TODO: Flink UI?
+		//log.info("Storm UI: http://" + getUINode(config, newNodes).getPublicAddresses().iterator().next() + ":8080");
+		//log.info("Ganglia UI: http://" + getUINode(config, newNodes).getPublicAddresses().iterator().next() + "/ganglia");
 		
 		/**
 		 * Close application now
@@ -127,14 +128,14 @@ public class Deploy {
 		System.exit(0);
 	}
 	
-	private static NodeMetadata getNimbusNode(Configuration config, HashMap<Integer, NodeMetadata> nodes) {
+	private static NodeMetadata getMasterNode(Configuration config, HashMap<Integer, NodeMetadata> nodes) {
 		for (NodeMetadata n : nodes.values()) {
 			if (n.getUserMetadata().containsKey("daemons") && n.getUserMetadata().get("daemons").contains("MASTER"))
 				return n;
 		}
 		return null;
 	}
-	
+	//TODO: Not being used
 	private static NodeMetadata getUINode(Configuration config, HashMap<Integer, NodeMetadata> nodes) {
 		for (NodeMetadata n : nodes.values()) {
 			if (n.getUserMetadata().containsKey("daemons") && n.getUserMetadata().get("daemons").contains("UI"))
@@ -190,7 +191,7 @@ public class Deploy {
 			
 			// Iterate all different types of instanceTypes for the nodes to start
 			for (String instanceType : instanceTypeToNodeIdsToStart.keySet()) {
-				
+				/*
 				// If any of the daemons are ZK, launch one node at a time and write zkid
 				if (daemonsToNodeIds.getKey().contains("ZK")) {
 					
@@ -205,8 +206,8 @@ public class Deploy {
 								new ArrayList<Integer>(Arrays.asList(nodeIdToStartWithZK)),
 								daemonsToNodeIds.getKey(), config.getNodeIdToZkId().get(nodeIdToStartWithZK)));
 					}
-					
-				} else {
+					*/
+				//} else {
 					log.info("Starting " + instanceTypeToNodeIdsToStart.get(instanceType).size() + " instance(s) of type " + instanceType + " with daemons " + daemonsToNodeIds.getKey().toString());
 					workerThreads.add(new LaunchNodeThread(
 							compute, 
@@ -215,7 +216,7 @@ public class Deploy {
 							clustername, 
 							instanceTypeToNodeIdsToStart.get(instanceType), 
 							daemonsToNodeIds.getKey(), null));	
-				}
+				//}
 			}
 		}
 		

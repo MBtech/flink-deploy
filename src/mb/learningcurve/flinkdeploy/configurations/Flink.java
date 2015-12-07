@@ -64,7 +64,7 @@ public class Flink {
 	public static List<Statement> startJobManagerDaemonSupervision(String username) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *MASTER*) java -cp \"fdeploy/flink-deploy-1.jar\" mb.learningcurve.stormdeploy.image.ProcessMonitor backtype.storm.daemon.nimbus storm/bin/storm nimbus ;; esac &' - " + username));
+		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *MASTER*) java -cp \"fdeploy/flink-deploy-1.jar\" mb.learningcurve.stormdeploy.image.ProcessMonitor org.apache.flink.runtime.jobmanager.JobManager flink/bin/flink/jobmanager.sh start cluster batch ;; esac &' - " + username));
 		return st;
 	}
 	
@@ -74,7 +74,7 @@ public class Flink {
 	public static List<Statement> startTaskManagerDaemonSupervision(String username) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *WORKER*) java -cp \"sda/storm-deploy-alternative.jar\" mb.learningcurve.stormdeploy.image.ProcessMonitor backtype.storm.daemon.supervisor storm/bin/storm supervisor ;; esac &' - " + username));
+		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *WORKER*) java -cp \"sda/storm-deploy-alternative.jar\" mb.learningcurve.stormdeploy.image.ProcessMonitor org.apache.flink.runtime.taskmanager.TaskManager flink/bin/flink/taskmanager.sh start batch ;; esac &' - " + username));
 		return st;
 	}
 	
@@ -108,6 +108,7 @@ public class Flink {
 		return st;
 	}
 	
+        //TODO: Not being used anymore!? Remove it
 	/**
 	 * Used to write config files to $HOME/.storm/
 	 * these are needed for the storm script to know where to submit topologies etc.
