@@ -136,7 +136,7 @@ public class ScaleOutCluster {
 						.nameTask("Setup")	
 						.blockOnComplete(true)
 						.wrapInInitScript(true)
-						.inboundPorts(22, 6627, 8081) // 22 = SSH, 6627 = Thrift, 8081 = UI
+						.inboundPorts(22, 443, 6627, 8081) // 22 = SSH, 6627 = Thrift, 8081 = UI
 						.overrideLoginUser(config.getImageUsername())
 						.userMetadata("daemons", "[WORKER]")
 						.runScript(new StatementList(initScript))

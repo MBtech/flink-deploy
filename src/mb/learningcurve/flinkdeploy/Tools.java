@@ -139,7 +139,7 @@ public class Tools {
 	 * 	22 = SSH, 6627 = Thrift, 8080 = UI, 80 = GANGLIA UI, 8000 = Logviewer, 3772 = DRPC, 8081: job manager web port
 	 */
 	public static int[] getPortsToOpen() {
-            return new int[]{22, 6627, 8080, 80, 8000, 3772, 8081};
+            return new int[]{22, 443, 6627, 8080, 80, 8000, 3772, 8081};
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -193,15 +193,15 @@ public class Tools {
 		return st;
 	}
 	
-	public static List<Statement> download(String localPath, String remotePath, boolean extract, boolean delete) {
-		return download(localPath, remotePath, extract, delete, null);
+	public static List<Statement> download(String localPath, String remotePath, boolean extract, boolean delete, String fileName) {
+		return download(localPath, remotePath, extract, delete, null, fileName);
 	}
 	
 	/**
 	 * Download, extract, remove and rename if necessary
 	 * RemotePath should always be downloadable by wget
 	 */
-	public static List<Statement> download(String localPath, String remotePath, boolean extract, boolean delete, String finalName) {
+	public static List<Statement> download(String localPath, String remotePath, boolean extract, boolean delete, String finalName, String fileName) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd " + localPath));
 		
@@ -209,16 +209,21 @@ public class Tools {
 		String filename = remotePath.substring(remotePath.lastIndexOf("/") + 1);
 		
 		// Download file
-		st.add(exec("wget -N " + remotePath));
+		st.add(exec("wget " + remotePath + " --output-document " + fileName));
 		
 		// Extract file
-		if (extract) {
-			st.add(exec("tar -zxf " + filename));
-		}
+		if (extract && finalName != null) {
+			st.add(exec("tar -zxf " + fileName));
+                        st.add(exec("export root=$(tar tzf "+fileName + " | sed -e 's@/.*@@' | uniq)"));
+                        st.add(exec("mv $root "+finalName));
+                        //st.add(exec("mv " + fileName+"* " + "flink"));
+		}else if (extract){
+                        st.add(exec("tar -zxf " + fileName));
+                }
 		
 		// Delete file
 		if (delete) {
-			st.add(exec("rm " + filename));
+			st.add(exec("rm " + fileName));
 		}
 		
 		if (finalName != null) {

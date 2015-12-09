@@ -21,7 +21,7 @@ import mb.learningcurve.flinkdeploy.Tools;
 public class Flink {
 
 	public static List<Statement> download(String flinkRemoteLocation) {
-        return Tools.download("~/", flinkRemoteLocation, true, true, "flink");
+        return Tools.download("~/", flinkRemoteLocation, true, true, "flink", "flink.tar.gz");
 	}
 	
 	/**
@@ -33,12 +33,13 @@ public class Flink {
                 
 		//st.add(exec("touch flink-conf.yaml"));
 		//Add job manager rpc address
-                st.add(exec("sed -i \"s/jobmanager.rpc.address: */jobmanager.rpc.address: "+jobManagerHostName+"/g\" flink-conf.yaml"));
+                st.add(exec("sed -i \"s/jobmanager.rpc.address: .*/jobmanager.rpc.address: "+jobManagerHostName+"/g\" flink-conf.yaml"));
 		
                 // Add nimbus.host
 		//st.add(exec("echo nimbus.host: \"" + hostname + "\" >> storm.yaml"));
 		
 		// Add storm.zookeeper.servers
+                st.add(exec("rm -rf slaves"));
                 st.add(exec("touch slaves"));
 		//st.add(exec("echo storm.zookeeper.servers: >> storm.yaml"));
 		for (int i = 1; i <= taskManagerHostNames.size(); i++)
@@ -49,7 +50,7 @@ public class Flink {
 		//st.add(exec("instancetype=$(cat ~/.instance-type)"));
 		//st.add(exec("echo \"  instancetype: \\\"$instancetype\\\"\" >> storm.yaml"));
 		
-		// Change owner of storm directory
+		// Change owner of flink directory
 		st.add(exec("chown -R " + userName + ":" + userName + " ~/flink"));
 		
 		// Add storm to execution PATH
@@ -64,7 +65,7 @@ public class Flink {
 	public static List<Statement> startJobManagerDaemonSupervision(String username) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *MASTER*) java -cp \"fdeploy/flink-deploy-1.jar\" mb.learningcurve.flinkdeploy.image.ProcessMonitor org.apache.flink.runtime.jobmanager.JobManager flink/bin/flink/jobmanager.sh start cluster batch ;; esac &' - " + username));
+		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *MASTER*) java -cp ~/fdeploy/flink-deploy-1.jar mb.learningcurve.flinkdeploy.image.ProcessMonitor org.apache.flink.runtime.jobmanager.JobManager ~/flink/bin/jobmanager.sh start cluster batch ;; esac &' - " + username));
 		return st;
 	}
 	
@@ -74,7 +75,7 @@ public class Flink {
 	public static List<Statement> startTaskManagerDaemonSupervision(String username) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *WORKER*) java -cp \"fdeploy/flink-deploy-1.jar\" mb.learningcurve.flinkdeploy.image.ProcessMonitor org.apache.flink.runtime.taskmanager.TaskManager flink/bin/flink/taskmanager.sh start batch ;; esac &' - " + username));
+		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *WORKER*) java -cp ~/fdeploy/flink-deploy-1.jar mb.learningcurve.flinkdeploy.image.ProcessMonitor org.apache.flink.runtime.taskmanager.TaskManager ~/flink/bin/taskmanager.sh start batch ;; esac &' - " + username));
 		return st;
 	}
 	
@@ -84,7 +85,7 @@ public class Flink {
 	public static List<Statement> startUIDaemonSupervision(String username) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
 		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *UI*) java -cp \"sda/storm-deploy-alternative.jar\" dk.kaspergsm.stormdeploy.image.ProcessMonitor backtype.storm.ui.core storm/bin/storm ui ;; esac &' - " + username));
+		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *UI*) java -cp ~/fdeploy/flink-deploy-1.jar mb.learningcurve.flinkdeploy.image.ProcessMonitor org.apache.flink.client.WebFrontend ~/flink/bin/start-webclient.sh ;; esac &' - " + username));
 		return st;
 	}
 	

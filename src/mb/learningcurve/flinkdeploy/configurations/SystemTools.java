@@ -52,6 +52,10 @@ public class SystemTools {
 			st.add(exec("apt-get install -y automake1.10"));
 			st.add(exec("apt-get install -y unzip"));
 			st.add(exec("update-alternatives --set automake /usr/bin/automake-1.10"));
+                        //Install scala 2.10.x
+                        st.add(exec("wget www.scala-lang.org/files/archive/scala-2.10.4.deb"));
+                        st.add(exec("dpkg -i scala-2.10.4.deb"));
+                        st.add(exec("apt-get install -f -y"));
 			
 		} else {
 			log.error("PACKAGE MANAGER not supported: " + pm.toString());

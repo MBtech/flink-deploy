@@ -79,7 +79,7 @@ public class NodeConfiguration {
 		//commands.addAll(Zookeeper.startDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startJobManagerDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startTaskManagerDaemonSupervision(config.getImageUsername()));
-		//commands.addAll(Flink.startUIDaemonSupervision(config.getImageUsername()));
+		commands.addAll(Flink.startUIDaemonSupervision(config.getImageUsername()));
 		//commands.addAll(Flink.startDRPCDaemonSupervision(config.getImageUsername()));
 		//commands.addAll(Flink.startLogViewerDaemonSupervision(config.getImageUsername()));
 		//commands.addAll(Ganglia.start());

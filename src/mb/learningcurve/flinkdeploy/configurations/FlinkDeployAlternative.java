@@ -17,7 +17,7 @@ public class FlinkDeployAlternative {
 
         // TODO Change this to do flink things
 	public static List<Statement> download() {
-		return Tools.download("~", "https://github.com/MBtech/flink-deploy/releases/download/0.1/fdeploy.tar.gz", true, true);
+		return Tools.download("~", "https://www.dropbox.com/s/lk61j2fwmbyo1xu/fdeploy.tar.gz?dl=1", true, true,"fdeploy.tar.gz");
 	}
 	
 	/**
