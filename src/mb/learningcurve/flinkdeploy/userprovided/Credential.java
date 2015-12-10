@@ -10,7 +10,7 @@ import mb.learningcurve.flinkdeploy.Tools;
 /**
  * Used to maintain credentials
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class Credential {
 	private static Logger log = LoggerFactory.getLogger(Credential.class);

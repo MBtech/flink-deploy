@@ -10,7 +10,7 @@ import mb.learningcurve.flinkdeploy.userprovided.Configuration;
 import mb.learningcurve.flinkdeploy.userprovided.Credential;
 
 /**
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class NodeConfiguration {
 	
@@ -41,7 +41,7 @@ public class NodeConfiguration {
 		//commands.addAll(ZeroMQ.download());
 		//commands.addAll(ZeroMQ.configure());
 		
-		// Download and configure storm-deploy-alternative (before anything with supervision is started)
+		// Download and configure flink-deploy (before anything with supervision is started)
 		commands.addAll(FlinkDeployAlternative.download());
 		commands.addAll(FlinkDeployAlternative.writeConfigurationFiles(Tools.getWorkDir() + "conf" + File.separator + "configuration.yaml", Tools.getWorkDir() + "conf" + File.separator + "credential.yaml"));
 		commands.addAll(FlinkDeployAlternative.writeLocalSSHKeys());
@@ -49,24 +49,12 @@ public class NodeConfiguration {
 		// Download Flink
 		commands.addAll(Flink.download(config.getFlinkRemoteLocation()));
 		
-		// Download Zookeeper
-		//commands.addAll(Zookeeper.download(config.getZKLocation()));
-		
-		// Download Ganglia
-		//commands.addAll(Ganglia.install());
-		
 		// Execute custom code, if user provided (pre config)
 		if (config.getRemoteExecPreConfig().size() > 0)
 			commands.addAll(Tools.runCustomCommands(config.getRemoteExecPreConfig()));
 		
-		// Configure Zookeeper (update configurationfiles)
-		//commands.addAll(Zookeeper.configure(zookeeperHostnames));
-		
 		// Configure Flink (update configurationfiles)
 		commands.addAll(Flink.configure(jobManagerHostName, taskManagerHostNames, config.getImageUsername()));
-		
-		// Configure Ganglia
-		//commands.addAll(Ganglia.configure(clustername, uiHostname));
 				
 		// Execute custom code, if user provided (post config)
 		if (config.getRemoteExecPostConfig().size() > 0)
@@ -76,17 +64,13 @@ public class NodeConfiguration {
 		/**
 		 * Start daemons (only on correct nodes, and under supervision)
 		 */
-		//commands.addAll(Zookeeper.startDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startJobManagerDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startTaskManagerDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startUIDaemonSupervision(config.getImageUsername()));
-		//commands.addAll(Flink.startDRPCDaemonSupervision(config.getImageUsername()));
-		//commands.addAll(Flink.startLogViewerDaemonSupervision(config.getImageUsername()));
-		//commands.addAll(Ganglia.start());
 		
 		/**
 		 * Start memory manager (to help share resources among Java processes)
-		 * 	requires StormDeployAlternative is installed remotely
+		 * 	requires Flink-deploy is installed remotely
 		 *  and user has specified he wants it running
 		 */
 		if (config.executeMemoryMonitor())

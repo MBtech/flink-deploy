@@ -11,7 +11,7 @@ import mb.learningcurve.flinkdeploy.Tools;
 /**
  * Contains all methods to configure SnormDeployAlternative on remote node
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class FlinkDeployAlternative {
 

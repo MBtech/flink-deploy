@@ -21,9 +21,9 @@ import com.sun.tools.attach.VirtualMachine;
  * 	This is needed to ensure all java processes give back their unused memory when needed.
  * 
  * can be executed by:
- * java -cp "storm-deploy-alternative.jar:/usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar" dk.kaspergsm.stormdeploy.image.MemoryMonitor
+ * java -cp "flink-deploy-1.jar:/usr/lib/jvm/java-7-openjdk-amd64/lib/tools.jar" mb.learningcurve.flinkdeploy.image.MemoryMonitor
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 class MemoryMonitor {
 	private static Logger log = LoggerFactory.getLogger(MemoryMonitor.class);

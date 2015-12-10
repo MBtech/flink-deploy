@@ -13,7 +13,7 @@ import mb.learningcurve.flinkdeploy.Tools;
 /**
  * Class used to store all information for configuration.yaml, specific to cluster to deploy
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class Configuration {
 	private static Logger log = LoggerFactory.getLogger(Configuration.class);
@@ -151,19 +151,35 @@ public class Configuration {
 		String flinkVersion = getRawConfigValue("flink-version");
                 String scalaVersion = getRawConfigValue("scala-version");
                 String hadoopVersion = getRawConfigValue("hadoop-version");
-                String downloadURL = "http://www.us.apache.org/dist/flink/" + flinkVersion + "/" + flinkVersion + "-bin-";
-                if(hadoopVersion.equals("hadoop-1.2.1")){
-                    return downloadURL + "hadoop1-"+ scalaVersion +".tgz";
-                } else if(hadoopVersion.equals("hadoop-2.3.0")){
-                    return downloadURL + "hadoop2-"+ scalaVersion +".tgz";
-                } else if(hadoopVersion.equals("hadoop-2.4.1")){
-                    return downloadURL + "hadoop24-"+ scalaVersion +".tgz";
-                }else if(hadoopVersion.equals("hadoop-2.6.0")){
-                    return downloadURL + "hadoop26-"+ scalaVersion +".tgz";
-                }else if(hadoopVersion.equals("hadoop-2.7.0")){
-                    return downloadURL + "hadoop27-"+ scalaVersion +".tgz";
-                }else {
+                String downloadURL = "http://www.us.apache.org/dist/flink/flink-" + flinkVersion + "/flink-" + flinkVersion + "-bin-";
+                if (scalaVersion != null) {
+                if (hadoopVersion.equals("1.2.1")) {
+                    return downloadURL + "hadoop1-scala_" + scalaVersion + ".tgz";
+                } else if (hadoopVersion.equals("2.3.0")) {
+                    return downloadURL + "hadoop2-scala_" + scalaVersion + ".tgz";
+                } else if (hadoopVersion.equals("2.4.1")) {
+                    return downloadURL + "hadoop24-scala_" + scalaVersion + ".tgz";
+                } else if (hadoopVersion.equals("2.6.0")) {
+                    return downloadURL + "hadoop26-scala_" + scalaVersion + ".tgz";
+                } else if (hadoopVersion.equals("2.7.0")) {
+                    return downloadURL + "hadoop27-scala_" + scalaVersion + ".tgz";
+                } else {
                     log.info("Hadoop version " + hadoopVersion + " not currently supported!");
+                }
+                }else{
+                    if (hadoopVersion.equals("1.2.1")) {
+                    return downloadURL + "hadoop1.tgz";
+                } else if (hadoopVersion.equals("2.3.0")) {
+                    return downloadURL + "hadoop2.tgz";
+                } else if (hadoopVersion.equals("2.4.1")) {
+                    return downloadURL + "hadoop24.tgz";
+                } else if (hadoopVersion.equals("2.6.0")) {
+                    return downloadURL + "hadoop26.tgz";
+                } else if (hadoopVersion.equals("2.7.0")) {
+                    return downloadURL + "hadoop27.tgz";
+                } else {
+                    log.info("Hadoop version " + hadoopVersion + " not currently supported!");
+                }
                 }
 		
 		return null;

@@ -16,7 +16,7 @@ import mb.learningcurve.flinkdeploy.Tools;
 /**
  * Contains all methods to configure Flink on nodes
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class Flink {
 
@@ -25,7 +25,7 @@ public class Flink {
 	}
 	
 	/**
-	 * Write storm/conf/storm.yaml (basic settings only)
+	 * Write flink/conf/flink-conf.yaml (basic settings only)
 	 */
 	public static List<Statement> configure(String jobManagerHostName, List<String> taskManagerHostNames, String userName) {
 		ArrayList<Statement> st = new ArrayList<Statement>();
@@ -35,20 +35,10 @@ public class Flink {
 		//Add job manager rpc address
                 st.add(exec("sed -i \"s/jobmanager.rpc.address: .*/jobmanager.rpc.address: "+jobManagerHostName+"/g\" flink-conf.yaml"));
 		
-                // Add nimbus.host
-		//st.add(exec("echo nimbus.host: \"" + hostname + "\" >> storm.yaml"));
-		
-		// Add storm.zookeeper.servers
                 st.add(exec("rm -rf slaves"));
                 st.add(exec("touch slaves"));
-		//st.add(exec("echo storm.zookeeper.servers: >> storm.yaml"));
-		for (int i = 1; i <= taskManagerHostNames.size(); i++)
+                for (int i = 1; i <= taskManagerHostNames.size(); i++)
 			st.add(exec("echo \"" + taskManagerHostNames.get(i-1) + "\" >> slaves"));
-
-		// Add supervisor metadata
-		//st.add(exec("echo supervisor.scheduler.meta: >> storm.yaml"));
-		//st.add(exec("instancetype=$(cat ~/.instance-type)"));
-		//st.add(exec("echo \"  instancetype: \\\"$instancetype\\\"\" >> storm.yaml"));
 		
 		// Change owner of flink directory
 		st.add(exec("chown -R " + userName + ":" + userName + " ~/flink"));
@@ -89,27 +79,7 @@ public class Flink {
 		return st;
 	}
 	
-	/**
-	 * Uses Monitor to restart daemon, if it stops
-	 */
-	public static List<Statement> startDRPCDaemonSupervision(String username) {
-		ArrayList<Statement> st = new ArrayList<Statement>();
-		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *DRPC*) java -cp \"sda/storm-deploy-alternative.jar\" dk.kaspergsm.stormdeploy.image.ProcessMonitor backtype.storm.daemon.drpc storm/bin/storm drpc ;; esac &' - " + username));
-		return st;
-	}
-	
-    /**
-     * Uses Monitor to restart daemon, if it stops
-     */
-	public static List<Statement> startLogViewerDaemonSupervision(String username) {
-		ArrayList<Statement> st = new ArrayList<Statement>();
-		st.add(exec("cd ~"));
-		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *LOGVIEWER*) java -cp \"sda/storm-deploy-alternative.jar\" dk.kaspergsm.stormdeploy.image.ProcessMonitor backtype.storm.daemon.logviewer storm/bin/storm logviewer ;; esac &' - " + username));
-		return st;
-	}
-	
-        //TODO: Not being used anymore!? Remove it
+        //TODO: Write config file to home directory so that user can have the information in a file
 	/**
 	 * Used to write config files to $HOME/.storm/
 	 * these are needed for the storm script to know where to submit topologies etc.

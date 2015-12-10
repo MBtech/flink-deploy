@@ -26,7 +26,7 @@ import mb.learningcurve.flinkdeploy.userprovided.Credential;
 /**
  * Called to deploy a new cluster
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)n
  */
 public class Deploy {
 	private static Logger log = LoggerFactory.getLogger(Deploy.class);
@@ -70,7 +70,7 @@ public class Deploy {
 			if (getUINode(config, newNodes) != null)
 				uiPublicAddress = getUINode(config, newNodes).getPublicAddresses().iterator().next();
 			
-			Flink.writeStormAttachConfigFiles(
+			Flink.writeFlinkAttachConfigFiles(
 					//getNewInstancesPublicIp(config, "ZK", newNodes), 
 					getNewInstancesPublicIp(config, "WORKER", newNodes), 
 					getMasterNode(config, newNodes).getPublicAddresses().iterator().next(),

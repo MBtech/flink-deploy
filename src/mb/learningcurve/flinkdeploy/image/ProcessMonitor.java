@@ -10,9 +10,9 @@ import java.util.TimerTask;
  * Is used to monitor a process, and restart as necessary.
  * 
  * Can be executed by:
- * java -cp storm-deploy-alternative.jar dk.kaspergsm.stormdeploy.image.ProcessMonitor 
+ * java -cp flink-deploy-1.jar mb.learningcurve.flinkdeploy.image.ProcessMonitor 
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class ProcessMonitor {
 	private static long _daemonStartTime = 300000; // 5 minutes in milliseconds

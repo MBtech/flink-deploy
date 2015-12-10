@@ -18,7 +18,7 @@ import mb.learningcurve.flinkdeploy.userprovided.Configuration;
 /**
  * Used to launch a new nodes
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class LaunchNodeThread extends Thread {
 	private static Logger log = LoggerFactory.getLogger(LaunchNodeThread.class);

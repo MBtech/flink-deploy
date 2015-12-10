@@ -12,7 +12,7 @@ import mb.learningcurve.flinkdeploy.configurations.SystemTools.PACKAGE_MANAGER;
 /**
  * All logic to configure ec2-tools on nodes
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class EC2Tools {
 	private static Logger log = LoggerFactory.getLogger(EC2Tools.class);

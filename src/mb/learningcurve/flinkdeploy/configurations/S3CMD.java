@@ -13,7 +13,7 @@ import mb.learningcurve.flinkdeploy.configurations.SystemTools.PACKAGE_MANAGER;
 /**
  * All logic to configure s3cmd on nodes
  * 
- * @author Kasper Grud Skat Madsen
+ * @author MB (Code adapted from Storm deploy tool written by Kasper Grud Skat Madsen)
  */
 public class S3CMD {
 	private static Random r = new Random();

@@ -58,7 +58,7 @@ public class Attach {
 			if (ui != null)
 				uiPublicAddress = ui.getPublicAddresses().iterator().next();
 			
-			Flink.writeStormAttachConfigFiles(
+			Flink.writeFlinkAttachConfigFiles(
 					getInstancesPublicIp(zkNodes), 
 					getInstancesPublicIp(workerNodes), 
 					nimbus.getPublicAddresses().iterator().next(),
