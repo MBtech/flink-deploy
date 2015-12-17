@@ -33,7 +33,7 @@ mycluster:
 + WORKER is the node with Task Manager
 + UI is the Flink's web interface 
 + Option for scala version specification is only available for Flink version 0.10.1
-+ Currently supported Flink versions are: 0.10.1, 0.9.1 and 0.9.0
++ Currently supported Flink versions are: 0.10.1, 0.9.1 and 0.9.0 (I have tested it with 0.10.1, if you find any problem with other versions i.e. 0.9.1 and 0.9.0 let me know. I will test them soon, I hope)
 
 _Please ensure the image resides in the same region as specified._
 
@@ -57,6 +57,9 @@ Kills all nodes belonging in the cluster with name CLUSTER_NAME.
 
 ## Limitations
 Currently, only deployment to Ubuntu AMIs on Amazon EC2 is supported.
+
+## Experimental
++ Right now HDFS storage layer is experimental and I am fiddling with configuration. HDFS is downloaded and configured but it is not started automatically. You might want to modify the configuration a little. The default configurations might not work since it is still a work in progress. 
 
 ## Work-in-progress
 + Configuration of HDFS storage for Flink

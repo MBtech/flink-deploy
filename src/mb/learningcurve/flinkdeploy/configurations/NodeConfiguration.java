@@ -48,26 +48,32 @@ public class NodeConfiguration {
 		
 		// Download Flink
 		commands.addAll(Flink.download(config.getFlinkRemoteLocation()));
-		
+		// Download Hadoop
+		commands.addAll(Hadoop.download(config.getHadoopRemoteLocation()));
+                
 		// Execute custom code, if user provided (pre config)
 		if (config.getRemoteExecPreConfig().size() > 0)
 			commands.addAll(Tools.runCustomCommands(config.getRemoteExecPreConfig()));
 		
 		// Configure Flink (update configurationfiles)
 		commands.addAll(Flink.configure(jobManagerHostName, taskManagerHostNames, config.getImageUsername()));
-				
-		// Execute custom code, if user provided (post config)
+	
+                // Configure Hadoop (update configurationfiles)
+		commands.addAll(Hadoop.configure(config, jobManagerHostName, taskManagerHostNames, config.getImageUsername()));
+                
+                // Execute custom code, if user provided (post config)
 		if (config.getRemoteExecPostConfig().size() > 0)
 			commands.addAll(Tools.runCustomCommands(config.getRemoteExecPostConfig()));
-		
-		
 		/**
 		 * Start daemons (only on correct nodes, and under supervision)
 		 */
 		commands.addAll(Flink.startJobManagerDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startTaskManagerDaemonSupervision(config.getImageUsername()));
 		commands.addAll(Flink.startUIDaemonSupervision(config.getImageUsername()));
-		
+                
+                //TODO: Fix hadoop deployment
+                //commands.addAll(Hadoop.startHDFSDaemonSupervision(config.getImageUsername()));
+                 
 		/**
 		 * Start memory manager (to help share resources among Java processes)
 		 * 	requires Flink-deploy is installed remotely

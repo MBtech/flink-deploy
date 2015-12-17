@@ -21,7 +21,7 @@ public class AWSCredentials {
 		// Read changes into current environment
 		st.add(exec("source ~/.bashrc"));
 		
-		// ok, the above doesn't work when using storm.  Probably because storm doesn't get the env??
+		// ok, the above doesn't work when using flink.  Probably because flink doesn't get the env??
 		// let's try creating a file too and see if that works.
 		st.add(exec("cd ~"));
 		st.add(exec("mkdir ~/.aws"));

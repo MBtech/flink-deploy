@@ -21,7 +21,7 @@ import mb.learningcurve.flinkdeploy.Tools;
 public class Flink {
 
 	public static List<Statement> download(String flinkRemoteLocation) {
-        return Tools.download("~/", flinkRemoteLocation, true, true, "flink", "flink.tar.gz");
+            return Tools.download("~/", flinkRemoteLocation, true, true, "flink", "flink.tar.gz");
 	}
 	
 	/**
@@ -43,13 +43,16 @@ public class Flink {
 		// Change owner of flink directory
 		st.add(exec("chown -R " + userName + ":" + userName + " ~/flink"));
 		
-		// Add storm to execution PATH
+		// Add flink to execution PATH
 		st.add(exec("echo \"export PATH=\\\"\\$HOME/flink/bin:\\$PATH\\\"\" >> ~/.bashrc"));
+                
+                //Export Java home
+                //st.add(exec("echo \"export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/\" >> ~/.bashrc"));
                 
 		return st;
 	}
-	//TODO: change the input arguments to the process monitor
-	/**
+
+        /**
 	 * Uses Monitor to restart daemon, if it stops
 	 */
 	public static List<Statement> startJobManagerDaemonSupervision(String username) {
@@ -78,46 +81,6 @@ public class Flink {
 		st.add(exec("su -c 'case $(head -n 1 ~/daemons) in *UI*) java -cp ~/fdeploy/flink-deploy-1.jar mb.learningcurve.flinkdeploy.image.ProcessMonitor org.apache.flink.client.WebFrontend ~/flink/bin/start-webclient.sh ;; esac &' - " + username));
 		return st;
 	}
-	
-        //TODO: Write config file to home directory so that user can have the information in a file
-	/**
-	 * Used to write config files to $HOME/.storm/
-	 * these are needed for the storm script to know where to submit topologies etc.
-	 */
-	public static void writeStormAttachConfigFiles(List<String> zookeeperNodesHostname, List<String> supervisorNodesHostname, String nimbusHost, String uiHost, String clustername) throws IOException {
-		String userHome = Tools.getHomeDir();
-		new File(userHome + ".storm").mkdirs();
-		
-		// Write $HOME/.storm/storm.yaml
-		FileWriter stormYaml = new FileWriter(userHome + ".storm/storm.yaml", false);
-		stormYaml.append("storm.zookeeper.servers:\n");
-		for (String zookeeperNode : zookeeperNodesHostname) {
-			stormYaml.append("    - \"");
-			stormYaml.append(zookeeperNode);
-			stormYaml.append("\"\n");
-		}
-		stormYaml.append("nimbus.host: \"");
-		stormYaml.append(nimbusHost);
-		stormYaml.append("\"\n");
-		stormYaml.append("ui.host: \"");
-		stormYaml.append(uiHost);
-		stormYaml.append("\"\n");
-		stormYaml.append("cluster: \"");
-		stormYaml.append(clustername);
-		stormYaml.append("\"\n");
-		
-		stormYaml.flush();
-		stormYaml.close();
-		
-		// Write $HOME/.storm/supervisor.yaml
-		FileWriter supervisorYaml = new FileWriter(userHome + ".storm/supervisor.yaml", false);
-		supervisorYaml.append("storm.supervisor.servers:\n");
-		for (String supervisorNode : supervisorNodesHostname) {
-			supervisorYaml.append("    - \"");
-			supervisorYaml.append(supervisorNode);
-			supervisorYaml.append("\"\n");
-		}
-		supervisorYaml.flush();
-		supervisorYaml.close();
-	}
+        
+        //TODO: Write the configuration files to the client
 }

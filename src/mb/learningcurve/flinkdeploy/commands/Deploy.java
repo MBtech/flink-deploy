@@ -92,7 +92,7 @@ public class Deploy {
 							clustername,
 							credentials,
 							config, 
-							getNewInstancesPrivateIp(config, "MASTER", newNodes), 
+							getNewInstancesPrivateIp(config, "WORKER", newNodes), 
 							//getNewInstancesPrivateIp(config, "DRPC", newNodes), 
 							getMasterNode(config, newNodes).getPrivateAddresses().iterator().next(), 
 							getMasterNode(config, newNodes).getPrivateAddresses().iterator().next()), //Task manager and web UI IP are the same?

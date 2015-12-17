@@ -143,7 +143,14 @@ public class Configuration {
 		}
 		return null;
 	}*/
-	
+	/**
+	 * Get remote location of Hadoop, based on requested versions of hadoop
+	 */
+	public String getHadoopRemoteLocation() {
+                String hadoopVersion = getRawConfigValue("hadoop-version");
+                return "http://www.us.apache.org/dist/hadoop/common/hadoop-" +
+                        hadoopVersion+"/hadoop-"+hadoopVersion+".tar.gz";
+        }
 	/**
 	 * Get remote location of Flink, based on requested versions of flink, hadoop and scala
 	 */
@@ -185,7 +192,7 @@ public class Configuration {
 		return null;
 	}
 	
-	private String getRawConfigValue(String k) {
+	public String getRawConfigValue(String k) {
 		for (int i = 0; i < _conf.size(); i++) {
 			String key = _conf.get(i).substring(0, _conf.get(i).indexOf(" "));
 			if (k.equals(key))

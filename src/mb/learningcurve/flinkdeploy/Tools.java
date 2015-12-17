@@ -139,7 +139,9 @@ public class Tools {
 	 * 	22 = SSH, 6627 = Thrift, 8080 = UI, 80 = GANGLIA UI, 8000 = Logviewer, 3772 = DRPC, 8081: job manager web port
 	 */
 	public static int[] getPortsToOpen() {
-            return new int[]{22, 443, 6627, 8080, 80, 8000, 3772, 8081};
+            return new int[]{22, 443, 6627, 8080, 80, 8000, 3772, 8081, 
+                8485, 8480, 8481, 50090, 50091, 50070, 50470, 50100, 50105, 50010
+                ,50075, 50020, 50475};
 	}
 	
 	@SuppressWarnings("unchecked")
