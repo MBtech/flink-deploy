@@ -1,4 +1,4 @@
-**I would recommend using [my ansible repo](https://github.com/MBtech/ansible-flink) instead of this project for deployment of Flink. Ansible is much more practical and useful. **
+**I would recommend using [my ansible repo](https://github.com/MBtech/ansible-flink) instead of this project for deployment of Flink. Ansible is much more practical and useful.**
 
 Flink-deploy (as the name suggests) is a tool to deploy [Apache Flink](https://github.com/apache/flink) on [Amazon EC2](http://aws.amazon.com/ec2/).
 
